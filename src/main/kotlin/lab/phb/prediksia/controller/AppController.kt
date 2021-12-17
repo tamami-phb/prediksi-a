@@ -25,12 +25,12 @@ class AppController {
     }
 
     @RequestMapping(value = [ "/proses" ], method = [ RequestMethod.POST ])
-    fun proses(param: Parameter): String {
+    fun proses(param: Parameter, model: Model): String {
         val data = resumeRepo.findByTglBetween(
             LeastSquare.convertTglToInt(param.tglAwal),
             LeastSquare.convertTglToInt(param.tglAkhir)
         )
-
+        model.addAttribute("hasil", LeastSquare.calculate(data))
         return "proses"
     }
 

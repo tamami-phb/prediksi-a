@@ -11,23 +11,53 @@ class LeastSquare {
             return Integer.parseInt(result)
         }
 
-        fun calculate(data: List<Resume>) {
+        fun calculate(data: List<Resume>): Double {
             val a = calculateA(data)
             val b = calculateB(data)
+
+            val nextX = getNextX(data.size)
+            return a + (b * nextX)
+        }
+
+        fun getNextX(i: Int): Int {
+            val daftarX = generateX(i)
+            if(i % 2 == 0) { // jml data genap
+                return daftarX[i-1] + 2
+            } else {
+                return daftarX[i-1] + 1
+            }
         }
 
         fun calculateB(data: List<Resume>): Double {
-            val x = generateX(data)
-            return 0.0;
+            val x = generateX(data.size)
+            val x2 = calculateX2(x)
+            val xy = calculateXY(data, x)
+            return xy / x2;
         }
 
-        fun generateX(data: List<Resume>): List<Int> {
-            if(data.size % 2 == 0) { // jumlah data genap
-                return generateXEven(data.size)
-            } else { // jumlah data ganjil
-                return generateXOdd(data.size)
+        fun calculateXY(data: List<Resume>, x: List<Int>): Double {
+            var result = 0.0
+            var i=0
+            x.forEach {
+                result += ( it * data[i++].nilai )
             }
-            return mutableListOf<Int>()
+            return result
+        }
+
+        fun calculateX2(x: List<Int>): Double {
+            var result = 0.0
+            x.forEach {
+                result += (it*it)
+            }
+            return result
+        }
+
+        fun generateX(jmlData: Int): List<Int> {
+            if(jmlData % 2 == 0) { // jumlah data genap
+                return generateXEven(jmlData)
+            } else { // jumlah data ganjil
+                return generateXOdd(jmlData)
+            }
         }
 
         fun generateXOdd(jmlData: Int): List<Int> {
@@ -41,7 +71,14 @@ class LeastSquare {
         }
 
         fun generateXEven(jmlData: Int): List<Int> {
-            return mutableListOf<Int>()
+            var start = (jmlData - 1) - ((jmlData - 1) * 2)
+            var result = mutableListOf<Int>()
+            var i=0
+            while(i++ < jmlData) {
+                result.add(start)
+                start += 2
+            }
+            return result
         }
 
         fun calculateA(data: List<Resume>): Double {

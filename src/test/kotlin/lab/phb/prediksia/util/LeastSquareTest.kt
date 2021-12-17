@@ -37,4 +37,43 @@ class LeastSquareTest {
         Assertions.assertNotNull(result)
     }
 
+    @Test
+    fun generateXEvenTest() {
+        val result = LeastSquare.generateXEven(4)
+        log.info("baris data: " + result)
+        Assertions.assertNotNull(result)
+    }
+
+    @Test
+    fun calculateXYTest() {
+        val data = resumeRepo.findByTglBetween(20050524, 20050530)
+        val result = LeastSquare.calculateXY(data, LeastSquare.generateX(data.size))
+        log.info("Hasilnya : " + result)
+        Assertions.assertNotNull(result)
+    }
+
+    @Test
+    fun calculateBTest() {
+        val data = resumeRepo.findByTglBetween(20050524, 20050530)
+        val result = LeastSquare.calculateB(data)
+        log.info("Hasilnya : " + result)
+        Assertions.assertNotNull(result)
+    }
+
+    @Test
+    fun getNextXTest() {
+        val result = LeastSquare.getNextX(7)
+        Assertions.assertEquals(4, result)
+        val resultGenap = LeastSquare.getNextX(8)
+        Assertions.assertEquals(9, resultGenap)
+    }
+
+    @Test
+    fun calculateTest() {
+        val data = resumeRepo.findByTglBetween(20050524, 20050530)
+        val result = LeastSquare.calculate(data)
+        log.info("Hasilnya : " + result)
+        Assertions.assertNotNull(result)
+    }
+
 }
